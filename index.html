@@ -5,264 +5,232 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORBIT OS - Next Generation Linux</title>
     <style>
-        /* Tông màu chủ đạo */
+        /* Tông màu chủ đạo: Đen, Xanh biển, Xanh lá */
         :root {
-            --bg-color: #0a0a0a;
-            --card-bg: #161616;
+            --bg-color: #050505;
+            --card-bg: #111111;
             --accent-blue: #007aff;
-            --accent-green: #34c759;
+            --accent-green: #2ecc71;
             --text-main: #ffffff;
-            --text-dim: #a1a1a1;
-            --glass: rgba(255, 255, 255, 0.05);
+            --text-dim: #888888;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
-            overflow-x: hidden;
+            /* Cố định Dark Mode, không cho phép light mode */
+            color-scheme: dark;
         }
 
         /* Nút chuyển ngôn ngữ */
-        .lang-switcher {
-            position: fixed;
+        .lang-container {
+            position: absolute;
             top: 20px;
             right: 20px;
-            z-index: 1000;
         }
 
-        .lang-btn {
-            background: var(--glass);
-            border: 1px solid rgba(255,255,255,0.1);
+        #langBtn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--accent-blue);
             color: white;
-            padding: 8px 15px;
+            padding: 8px 16px;
             cursor: pointer;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            border-radius: 5px;
             transition: 0.3s;
         }
 
-        .lang-btn:hover {
+        #langBtn:hover {
             background: var(--accent-blue);
         }
 
-        /* Header / Hero Section */
-        header {
+        /* Hero Section */
+        .hero {
             height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: radial-gradient(circle at center, #001a33 0%, #0a0a0a 100%);
-            padding: 20px;
+            padding: 0 20px;
+            background: radial-gradient(circle at top, #001f3f, #050505);
         }
 
         h1 {
-            font-size: 4rem;
-            letter-spacing: -1px;
+            font-size: 5rem;
             margin-bottom: 10px;
-            background: linear-gradient(to right, var(--accent-blue), var(--accent-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 122, 255, 0.5);
         }
 
-        .tagline {
-            font-size: 1.5rem;
+        .description {
+            font-size: 1.4rem;
             color: var(--text-dim);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            max-width: 700px;
         }
 
         /* Buttons */
-        .btn-group {
+        .cta-buttons {
             display: flex;
             gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
         }
 
         .btn {
-            padding: 15px 35px;
-            border-radius: 30px;
+            padding: 15px 30px;
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: 0.3s;
         }
 
         .btn-download {
-            background-color: var(--accent-blue);
+            background: var(--accent-blue);
             color: white;
         }
 
         .btn-github {
-            background-color: transparent;
             border: 2px solid var(--accent-green);
             color: var(--accent-green);
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            transform: scale(1.05);
+            filter: brightness(1.2);
         }
 
-        /* Features Section */
+        /* Features */
         .features {
             padding: 100px 20px;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-        }
-
-        .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 40px;
         }
 
-        .card {
+        .feature-card {
             background: var(--card-bg);
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid var(--accent-blue);
         }
 
-        .card:hover {
-            border-color: var(--accent-blue);
-        }
-
-        .card h3 {
-            margin-bottom: 15px;
+        .feature-card h3 {
             color: var(--accent-green);
+            margin-bottom: 15px;
         }
 
-        /* Footer */
+        /* Footer gộp chung thông tin */
         footer {
-            padding: 50px 20px;
+            padding: 60px 20px;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid #222;
             color: var(--text-dim);
             font-size: 0.9rem;
         }
 
-        .license {
-            margin-top: 10px;
-            color: var(--accent-blue);
+        .footer-info {
+            letter-spacing: 0.5px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .tagline { font-size: 1.1rem; }
+        @media (max-width: 600px) {
+            h1 { font-size: 3rem; }
+            .cta-buttons { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-    <div class="lang-switcher">
-        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">Tiếng Việt</button>
+    <div class="lang-container">
+        <button id="langBtn" onclick="changeLang()">Tiếng Việt</button>
     </div>
 
-    <header>
-        <h1 id="mainTitle">ORBIT OS</h1>
-        <p class="tagline" id="tagline">The power of Arch, the beauty of macOS.</p>
-        <div class="btn-group">
-            <a href="#" class="btn btn-download" id="btnDl">Download ISO</a>
-            <a href="https://github.com/LinuxDEdeveloper/ORBIT-Operating-System-repo" target="_blank" class="btn btn-github" id="btnGit">GitHub Official</a>
+    <section class="hero">
+        <h1 id="title">ORBIT OS</h1>
+        <p class="description" id="heroDesc">An Arch Linux & EndeavourOS based operating system with a elegant macOS look and feel.</p>
+        <div class="cta-buttons">
+            <a href="#" class="btn btn-download" id="btnDown">Download Now</a>
+            <a href="https://github.com/LinuxDEdeveloper/ORBIT-Operating-System-repo" target="_blank" class="btn btn-github" id="btnGit">Official GitHub</a>
         </div>
-    </header>
+    </section>
 
     <section class="features">
-        <h2 class="section-title" id="featTitle">Why ORBIT OS?</h2>
-        <div class="grid">
-            <div class="card">
-                <h3 id="f1-t">macOS Aesthetics</h3>
-                <p id="f1-d">A refined user interface inspired by macOS, providing a premium and intuitive desktop experience out of the box.</p>
-            </div>
-            <div class="card">
-                <h3 id="f2-t">Bleeding Edge</h3>
-                <p id="f2-d">Based on Arch Linux and EndeavourOS. Get daily updates and the latest software packages every single day.</p>
-            </div>
-            <div class="card">
-                <h3 id="f3-t">High Performance</h3>
-                <p id="f3-d">Optimized for speed and stability. Orbit OS ensures your hardware performs at its maximum potential.</p>
-            </div>
+        <div class="feature-card">
+            <h3 id="f1t">MacOS Aesthetics</h3>
+            <p id="f1d">Enjoy a beautiful, polished interface inspired by macOS, built on top of the most powerful Linux base.</p>
+        </div>
+        <div class="feature-card">
+            <h3 id="f2t">Daily Updates</h3>
+            <p id="f2d">With the power of Arch Linux, you get the latest kernels and software packages every single day.</p>
+        </div>
+        <div class="feature-card">
+            <h3 id="f3t">Optimized Base</h3>
+            <p id="f3d">Built upon EndeavourOS foundations for a lightweight, stable, and developer-friendly environment.</p>
         </div>
     </section>
 
     <footer>
-        <p id="copyright">© 2026 Dự án ORBIT OS</p>
-        <p class="license">Licensed under GPLv3 & LGPLv3</p>
+        <p class="footer-info" id="footerText">
+            © 2026 Dự án ORBIT OS — Licensed under GPLv3 & LGPLv3
+        </p>
     </footer>
 
     <script>
-        let currentLang = 'en';
+        // Mặc định ban đầu là Tiếng Anh
+        let isVietnamese = false;
 
-        const content = {
-            en: {
-                btnLang: "Tiếng Việt",
-                tagline: "The power of Arch, the beauty of macOS.",
-                btnDl: "Download ISO",
-                btnGit: "GitHub Official",
-                featTitle: "Why ORBIT OS?",
-                f1t: "macOS Aesthetics",
-                f1d: "A refined user interface inspired by macOS, providing a premium and intuitive desktop experience out of the box.",
-                f2t: "Bleeding Edge",
-                f2d: "Based on Arch Linux and EndeavourOS. Get daily updates and the latest software packages every single day.",
-                f3t: "High Performance",
-                f3d: "Optimized for speed and stability. Orbit OS ensures your hardware performs at its maximum potential.",
-                copyright: "© 2026 Dự án ORBIT OS"
-            },
-            vi: {
-                btnLang: "English",
-                tagline: "Sức mạnh của Arch, vẻ đẹp của macOS.",
-                btnDl: "Tải về ISO",
-                btnGit: "Trang GitHub chính thức",
-                featTitle: "Tại sao chọn ORBIT OS?",
-                f1t: "Giao diện phong cách MacOS",
-                f1d: "Giao diện người dùng tinh tế được cảm hứng từ macOS, mang lại trải nghiệm cao cấp và trực quan ngay khi cài đặt.",
-                f2t: "Cập nhật hàng ngày",
-                f2d: "Dựa trên Arch Linux và EndeavourOS. Nhận các gói phần mềm mới nhất và cập nhật hệ thống mỗi ngày.",
-                f3t: "Hiệu năng tối ưu",
-                f3d: "Được tối ưu hóa cho tốc độ và sự ổn định. Orbit OS đảm bảo phần cứng của bạn hoạt động với tiềm năng tối đa.",
-                copyright: "© 2026 Dự án ORBIT OS"
-            }
-        };
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'vi' : 'en';
-            updateContent();
-        }
-
-        function updateContent() {
-            const l = content[currentLang];
-            document.getElementById('langBtn').innerText = l.btnLang;
-            document.getElementById('tagline').innerText = l.tagline;
-            document.getElementById('btnDl').innerText = l.btnDl;
-            document.getElementById('btnGit').innerText = l.btnGit;
-            document.getElementById('featTitle').innerText = l.featTitle;
-            document.getElementById('f1-t').innerText = l.f1t;
-            document.getElementById('f1-d').innerText = l.f1d;
-            document.getElementById('f2-t').innerText = l.f2t;
-            document.getElementById('f2-d').innerText = l.f2d;
-            document.getElementById('f3-t').innerText = l.f3t;
-            document.getElementById('f3-d').innerText = l.f3d;
-            document.getElementById('copyright').innerText = l.copyright;
+        function changeLang() {
+            isVietnamese = !isVietnamese;
             
-            document.documentElement.lang = currentLang;
+            const btn = document.getElementById('langBtn');
+            const title = document.getElementById('title');
+            const heroDesc = document.getElementById('heroDesc');
+            const btnDown = document.getElementById('btnDown');
+            const btnGit = document.getElementById('btnGit');
+            const f1t = document.getElementById('f1t');
+            const f1d = document.getElementById('f1d');
+            const f2t = document.getElementById('f2t');
+            const f2d = document.getElementById('f2d');
+            const f3t = document.getElementById('f3t');
+            const f3d = document.getElementById('f3d');
+            const footerText = document.getElementById('footerText');
+
+            if (isVietnamese) {
+                // Đổi sang Tiếng Việt
+                btn.innerText = "English";
+                heroDesc.innerText = "Hệ điều hành dựa trên Arch Linux & EndeavourOS với giao diện macOS tinh tế và sang trọng.";
+                btnDown.innerText = "Tải ngay";
+                btnGit.innerText = "GitHub chính thức";
+                f1t.innerText = "Giao diện MacOS";
+                f1d.innerText = "Tận hưởng giao diện đẹp mắt, bóng bẩy lấy cảm hứng từ macOS trên nền tảng Linux mạnh mẽ nhất.";
+                f2t.innerText = "Cập nhật hàng ngày";
+                f2d.innerText = "Với sức mạnh của Arch Linux, bạn sẽ nhận được các bản kernel và phần mềm mới nhất mỗi ngày.";
+                f3t.innerText = "Nền tảng tối ưu";
+                f3d.innerText = "Xây dựng trên nền EndeavourOS cho môi trường nhẹ nhàng, ổn định và thân thiện với lập trình viên.";
+                footerText.innerText = "© 2026 Dự án ORBIT OS — Phát hành theo giấy phép GPLv3 & LGPLv3";
+                document.documentElement.lang = "vi";
+            } else {
+                // Đổi sang Tiếng Anh
+                btn.innerText = "Tiếng Việt";
+                heroDesc.innerText = "An Arch Linux & EndeavourOS based operating system with a elegant macOS look and feel.";
+                btnDown.innerText = "Download Now";
+                btnGit.innerText = "Official GitHub";
+                f1t.innerText = "MacOS Aesthetics";
+                f1d.innerText = "Enjoy a beautiful, polished interface inspired by macOS, built on top of the most powerful Linux base.";
+                f2t.innerText = "Daily Updates";
+                f2d.innerText = "With the power of Arch Linux, you get the latest kernels and software packages every single day.";
+                f3t.innerText = "Optimized Base";
+                f3d.innerText = "Built upon EndeavourOS foundations for a lightweight, stable, and developer-friendly environment.";
+                footerText.innerText = "© 2026 Dự án ORBIT OS — Licensed under GPLv3 & LGPLv3";
+                document.documentElement.lang = "en";
+            }
         }
     </script>
 </body>
